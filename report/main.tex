@@ -120,7 +120,7 @@
     \begin{titlepage}      
         \begin{center}
             % \includegraphics[width=3cm]{figures/uorlogo.png}\\[0.5cm]
-            {\LARGE University of Reading\\[0.5cm]
+            {\LARGE University of Bologna\\[0.5cm]
             Department of Computer Science}\\[2cm]
 			%{\color{blue} \rule{\textwidth}{1pt}}
 			
@@ -132,8 +132,14 @@
                 %TODO: 1 TITLE of Your PROJECT 
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 % chnage the following line                
-                Computer Science Undergraduate Report Template and Report Writing Guide
-            
+                Report Itelligent System Project            
+            }
+            \huge {
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                %TODO: 1 TITLE of Your PROJECT 
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                % chnage the following line                
+                BDI 21 player agent 
             }
             \linespread{1}~\\[2cm]
 			%{\color{blue} \rule{\textwidth}{1pt}}
@@ -142,7 +148,7 @@
                 %TODO: 2 YOUR NAME
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%             
                 % chnage the following line
-                FirstName(s) LastName
+                Matteo Santoro
                 % change end             
             }\\[1cm] 
             
@@ -152,12 +158,16 @@
                 %TODO: 3 YOUR NAME Supervisor's name(s)
                 %%%%%%%%%%%%%%%%%%%%%%%%%%%%             
                 % change the following line                
-                \emph{Supervisor:} Supervisor's Name}\\[1cm] % if applicable
+                \emph{Supervisor:} Andrea Omicini}\\[1cm] % if applicable
+                {\large 
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+                %TODO: 3 YOUR NAME Supervisor's name(s)
+                %%%%%%%%%%%%%%%%%%%%%%%%%%%%             
+                % change the following line                
+                \emph{Supervisor:} Giavanni Ciatto}\\[1cm] % if applicable
             
     		% PLEASE DO NOT CHANGE THIS TEXT %
-            \large A report submitted in partial fulfilment of the requirements of\\the University of Reading for the degree of\\ Bachelor of Science in \textit{Computer Science}\\[0.3cm] 
             \vfill
-            
             
             \today % Please update this date you can use \date{April 2020} for fixed date
         \end{center}
@@ -169,37 +179,37 @@
     % -------------------------------------------------------------------
     \newpage
     \thispagestyle{empty}
-    \chapter*{\Large Declaration}
-    % PLEASE CHANGE THIS TEXT EXCEPT YOUR NAME%
-    % -------------------------------
-    %TODO: PLEASE ONLY UPDATE HERE -- PLEASE WRITE YOUR NAME %    
-    % ------------------------------- 
-    I,
-    %%%%%%%%%%%%%%%%%%%%%%%
-     Firstname(s) Lastname, % Mandatory part
-    %%%%%%%%%%%%%%%%%%%%%%%
-    of the Department of Computer Science, University of Reading, confirm that this is my own work and figures, tables, equations, code snippets, artworks, and illustrations in this report are original and have not been taken from any other person's work, except where the works of others have been explicitly acknowledged, quoted, and referenced. I understand that if failing to do so will be considered a case of plagiarism. Plagiarism is a form of academic misconduct and will be penalised accordingly. \\
+    % \chapter*{\Large Declaration}
+    % % PLEASE CHANGE THIS TEXT EXCEPT YOUR NAME%
+    % % -------------------------------
+    % %TODO: PLEASE ONLY UPDATE HERE -- PLEASE WRITE YOUR NAME %    
+    % % ------------------------------- 
+    % I,
+    % %%%%%%%%%%%%%%%%%%%%%%%
+    %  Firstname(s) Lastname, % Mandatory part
+    % %%%%%%%%%%%%%%%%%%%%%%%
+    % of the Department of Computer Science, University of Reading, confirm that this is my own work and figures, tables, equations, code snippets, artworks, and illustrations in this report are original and have not been taken from any other person's work, except where the works of others have been explicitly acknowledged, quoted, and referenced. I understand that if failing to do so will be considered a case of plagiarism. Plagiarism is a form of academic misconduct and will be penalised accordingly. \\
     
-    %% Please delete as appropriate. 
-    \noindent
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-    %TODO 1 Consent for example copy -  we will use 
-    I give consent to a copy of my report being shared with future students as an exemplar. \\
+    % %% Please delete as appropriate. 
+    % \noindent
+    % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+    % %TODO 1 Consent for example copy -  we will use 
+    % I give consent to a copy of my report being shared with future students as an exemplar. \\
     
-    \noindent
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
-    %TODO 2 Consent to let the report to use use by library for public use
-    I give consent for my work to be made available more widely to members of UoR and public with interest in teaching, learning and research. 
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    ~\\[1cm]
-    \begin{flushright}
-	%------------------------------ 
-	% change the following line
-    %TODO: PLEASE UPDATE  Your Name  -------------------------------%
-	Firstname(s) Lastname % Please change it to your name
+    % \noindent
+    % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+    % %TODO 2 Consent to let the report to use use by library for public use
+    % I give consent for my work to be made available more widely to members of UoR and public with interest in teaching, learning and research. 
+    % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    % ~\\[1cm]
+    % \begin{flushright}
+	% %------------------------------ 
+	% % change the following line
+    % %TODO: PLEASE UPDATE  Your Name  -------------------------------%
+	% Firstname(s) Lastname % Please change it to your name
     
-    \today
-    \end{flushright}
+    % \today
+    % \end{flushright}
 
      
     % -------------------------------------------------------------------
@@ -211,7 +221,7 @@
 	% Acknowledgement
 	% -------------------------------------------------------------------
    
-    \input{report/chapters/acknowledgments.tex}   
+    % \input{report/chapters/acknowledgments.tex}   
     
     % -------------------------------------------------------------------
     % Contents, list of figures, list of tables
@@ -219,8 +229,8 @@
     
     \tableofcontents
     \listoffigures
-    \listoftables
-    \input{report/glossaries} %  Enter your list of Abbreviation and Symbols in this file
+    % \listoftables
+    % \input{report/glossaries} %  Enter your list of Abbreviation and Symbols in this file
     
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%                                                                    %%  
@@ -233,12 +243,12 @@
     % Lamport, L. (1986), LATEX: A Document Preparation System, Addison-Wesley.
     
     \input{report/chapters/introduction.tex}
-    \input{report/chapters/literature.tex}% https://guides.library.bloomu.edu/litreview
-    \input{report/chapters/methodology.tex}
-    \input{report/chapters/results.tex}
-    \input{report/chapters/discussion.tex}
-    \input{report/chapters/conclusions.tex}
-    \input{report/chapters/reflection.tex}
+    % \input{report/chapters/literature.tex}% https://guides.library.bloomu.edu/litreview
+    % \input{report/chapters/methodology.tex}
+    % \input{report/chapters/results.tex}
+    % \input{report/chapters/discussion.tex}
+    % \input{report/chapters/conclusions.tex}
+    % \input{report/chapters/reflection.tex}
     
 
     
