@@ -78,6 +78,12 @@
         <li><a href="#background-and-link-to-the-theory"
         id="toc-background-and-link-to-the-theory">Background and link
         to the theory</a></li>
+        <li><a href="#requirements-analysis"
+        id="toc-requirements-analysis">Requirements Analysis</a>
+        <ul>
+        <li><a href="#implicit-requirements"
+        id="toc-implicit-requirements">Implicit Requirements</a></li>
+        </ul></li>
         <li><a href="#design" id="toc-design">Design</a>
         <ul>
         <li><a href="#structure-domain-entities"
@@ -172,7 +178,37 @@ theory</h1>
 mentioned in Section 3) • Relevant interaction patterns (the ones
 mentioned in Section 3) • Relevant software frameworks (the ones
 mentioned in Sections 3 and 4)</p>
+<h1 id="requirements-analysis">Requirements Analysis</h1>
+<h2 id="implicit-requirements">Implicit Requirements</h2>
+<ul>
+<li><p>Software must adhere to the rules of 21, so it must be capable of
+know who wins the hand and give the right amount of money to the
+winner.</p></li>
+<li><p>Users must be capable of following the game flow so the agents
+need to implement a slowdown mechanism and maybe a clear log.</p></li>
+</ul>
 <h1 id="design">Design</h1>
+<p>This system is a multi-purpose, it can be used as a classical game to
+occupy time by a user or can be played by intelligent agent to instruct
+the user with some basic stategy of the game. <strong>MAS
+(Multi-agent-system)</strong> architecture is used here to coordinate
+the activities of the agents that are players and the dealer. A good
+abstraction used is the one that compares the Environment typically used
+in MAS with the table game where agents, based on their intentions and
+belief react according to changes like:</p>
+<ul>
+<li><p>Place the cards.</p></li>
+<li><p>Stand.</p></li>
+<li><p>Bet.</p></li>
+<li><p>Raise the bet.</p></li>
+<li><p>Every entity involved in the action can perfectly see the
+(virtual) table with cards and money on</p></li>
+</ul>
+<p>The interaction between agents is controlled by
+<strong>BlackJackEnvironment</strong> that encapsulates a gameTable
+object that contains most of the business logic of the game. This system
+includes also a user graphical interface for monitoring the developement
+of the game.</p>
 <h2 id="structure-domain-entities">Structure (domain entities)</h2>
 <p>The entities involved are typically the players and the dealer.</p>
 <p>Which entities need to by modelled to reflect the domain? UML class
