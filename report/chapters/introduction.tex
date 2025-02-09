@@ -5,7 +5,10 @@
 \begin{itemize}
     \item Implement a multi-agent system that includes different levels of intelligence for a card-playing bot.
     \item Define and implement autonomous behaviors for the bots, allowing them to make strategic decisions based on the context of the game.
-    \item Make an HiLo strategic agent.
+    \begin{itemize}
+        \item Casual player
+        \item Make an HiLo strategic agent.
+    \end{itemize}
     \item Transpose agent decision on a GUI that shows a visual table and cards.
     \item Measure the winning rate of the agents.
 \end{itemize}
@@ -33,18 +36,25 @@ To test the agents implementation will be measured the amount of money won and r
 • Relevant interaction patterns (the ones mentioned in Section 3)
 • Relevant software frameworks (the ones mentioned in Sections 3 and 4)
 
-
 \chapter{Design}
 
+
 \section{Structure (domain entities)}
+The entities involved are typically the players and the dealer.
+
+
+
 
 Which entities need to by modelled to reflect the domain? UML class diagram here with
 domain entities and possibly messages being exchanged
+
 \section{Interaction}
 How should entities interact with each others? UML activity / sequence diagram and
 protocols definitions.
+
 \section{Behaviour}
 How should each entity behave? UML State diagram.
+
 \section{Architecture}
 How are software pieces organised into software modules? UML component / package /
 deployment diagrams, data-flow among components, web API description.
@@ -55,16 +65,19 @@ Anything potentially interesting / non-trivial and technologies adopted to match
 design. This section is expected to be short in case some documentation (e.g. Javadoc
 or Swagger Spec) has been produced for the software artefacts. This this case, the
 produced documentation should be referenced here.
+
 \chapter{Validation}
 Choose a criterion for the evaluation of the produced software and its compliance
 to the requirements above. Description of automated (and manual) tests and their
 rationale. In case of a test-driven development, describe tests here and possibly report
 the amount of passing tests, the total amount of tests and, possibly, the test coverage.
+
 \chapter{Deployment Instructions}
 Explain here how to install and launch the produced software artefacts. Assume the
 software must be installed on a totally virgin environment. So, report any configuration
 step. Gradle and Docker may be useful here to ensure the deployment and launch
 processes to be easy.
+
 \chapter{Usage Examples}
 Show how to use the produced software artefacts. Ideally, there should be at least one
 example for each scenario proposed above.
