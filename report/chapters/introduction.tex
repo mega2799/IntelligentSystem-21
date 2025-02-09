@@ -36,8 +36,27 @@ To test the agents implementation will be measured the amount of money won and r
 • Relevant interaction patterns (the ones mentioned in Section 3)
 • Relevant software frameworks (the ones mentioned in Sections 3 and 4)
 
+
+\chapter{Requirements Analysis}
+
+\section{Implicit Requirements}
+\begin{itemize}
+   \item Software must adhere to the rules of 21, so it must be capable of know who wins the hand and give the right amount of money to the winner.
+   \item Users must be capable of following the game flow so the agents need to implement a slowdown mechanism and maybe a clear log.
+\end{itemize}
+
 \chapter{Design}
 
+This system is a multi-purpose, it can be used as a classical game to occupy time by a user or can be played by intelligent agent to instruct the user with some basic stategy of the game. \textbf{MAS (Multi-agent-system)} architecture is used here to coordinate the activities of the agents that are players and the dealer. A good abstraction used is the one that compares the Environment typically used in MAS with the table game where agents, based on their intentions and belief react according to changes like: 
+\begin{itemize}
+    \item Place the cards.
+    \item Stand.
+    \item Bet.
+    \item Raise the bet.
+    \item Every entity involved in the action can perfectly see the (virtual) table with cards and money on
+ \end{itemize}
+
+The interaction between agents is controlled by \textbf{BlackJackEnvironment} that encapsulates a gameTable object that contains most of the business logic of the game. This system includes also a user graphical interface for monitoring the developement of the game.
 
 \section{Structure (domain entities)}
 The entities involved are typically the players and the dealer.
