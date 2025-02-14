@@ -124,7 +124,7 @@ agent </span>  <br />
 <span> <em>Supervisor:</em> Andrea Omicini</span><br />
 <span> <em>Supervisor:</em> Giavanni Ciatto</span><br />
 </p>
-<p>2025-02-09</p>
+<p>2025-02-14</p>
 </div>
 </div>
 <h1 class="unnumbered" id="abstract">Abstract</h1>
@@ -186,9 +186,13 @@ know who wins the hand and give the right amount of money to the
 winner.</p></li>
 <li><p>Users must be capable of following the game flow so the agents
 need to implement a slowdown mechanism and maybe a clear log.</p></li>
+<li><p>During each phase of the game the agent must know what to do from
+his understandings.</p></li>
+<li><p>Bots should exhibit appropriate strategic behaviors based on
+their level and knowledge about the game.</p></li>
 </ul>
 <h1 id="design">Design</h1>
-<p>This system is a multi-purpose, it can be used as a classical game to
+<p>This is a multi-purpose system, it can be used as a classical game to
 occupy time by a user or can be played by intelligent agent to instruct
 the user with some basic stategy of the game. <strong>MAS
 (Multi-agent-system)</strong> architecture is used here to coordinate
@@ -211,12 +215,20 @@ includes also a user graphical interface for monitoring the developement
 of the game.</p>
 <h2 id="structure-domain-entities">Structure (domain entities)</h2>
 <p>The entities involved are typically the players and the dealer.</p>
+<figure id="fig:classDiagram">
+<img src="report/img/classDiagram.png" />
+<figcaption>Diagramma delle classi</figcaption>
+</figure>
 <p>Which entities need to by modelled to reflect the domain? UML class
 diagram here with domain entities and possibly messages being
 exchanged</p>
 <h2 id="interaction">Interaction</h2>
 <p>How should entities interact with each others? UML activity /
 sequence diagram and protocols definitions.</p>
+<figure id="fig:activityDiagram">
+<img src="report/img/activityDiagram.png" />
+<figcaption>Diagramma delle attività</figcaption>
+</figure>
 <h2 id="behaviour">Behaviour</h2>
 <p>How should each entity behave? UML State diagram.</p>
 <h2 id="architecture">Architecture</h2>
