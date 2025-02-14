@@ -49,7 +49,7 @@ To test the agents implementation will be measured the amount of money won and r
 
 \chapter{Design}
 
-This system is a multi-purpose, it can be used as a classical game to occupy time by a user or can be played by intelligent agent to instruct the user with some basic stategy of the game. \textbf{MAS (Multi-agent-system)} architecture is used here to coordinate the activities of the agents that are players and the dealer. A good abstraction used is the one that compares the Environment typically used in MAS with the table game where agents, based on their intentions and belief react according to changes like: 
+This is a multi-purpose system, it can be used as a classical game to occupy time by a user or can be played by intelligent agent to instruct the user with some basic stategy of the game. \textbf{MAS (Multi-agent-system)} architecture is used here to coordinate the activities of the agents that are players and the dealer. A good abstraction used is the one that compares the Environment typically used in MAS with the table game where agents, based on their intentions and belief react according to changes like: 
 \begin{itemize}
     \item Place the cards.
     \item Stand.
@@ -63,7 +63,12 @@ The interaction between agents is controlled by \textbf{BlackJackEnvironment} th
 \section{Structure (domain entities)}
 The entities involved are typically the players and the dealer.
 
-
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.55]{report/img/classDiagram.png}
+    \caption{Diagramma delle classi}
+    \label{fig:classDiagram}
+\end{figure}
 
 
 Which entities need to by modelled to reflect the domain? UML class diagram here with
@@ -72,6 +77,13 @@ domain entities and possibly messages being exchanged
 \section{Interaction}
 How should entities interact with each others? UML activity / sequence diagram and
 protocols definitions.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.55]{report/img/activityDiagram.png}
+    \caption{Diagramma delle attività}
+    \label{fig:activityDiagram}
+\end{figure}
 
 \section{Behaviour}
 How should each entity behave? UML State diagram.
