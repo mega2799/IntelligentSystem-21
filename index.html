@@ -91,15 +91,20 @@
         entities)</a></li>
         <li><a href="#interaction"
         id="toc-interaction">Interaction</a></li>
-        <li><a href="#behaviour" id="toc-behaviour">Behaviour</a></li>
         <li><a href="#architecture"
         id="toc-architecture">Architecture</a></li>
         </ul></li>
         <li><a href="#salient-implementation-details"
         id="toc-salient-implementation-details">Salient implementation
-        details</a></li>
-        <li><a href="#validation"
-        id="toc-validation">Validation</a></li>
+        details</a>
+        <ul>
+        <li><a href="#asincronus-agents"
+        id="toc-asincronus-agents">Asincronus Agents</a></li>
+        <li><a href="#hilo-agent" id="toc-hilo-agent">HiLo
+        Agent</a></li>
+        <li><a href="#consensuos"
+        id="toc-consensuos">Consensuos</a></li>
+        </ul></li>
         <li><a href="#deployment-instructions"
         id="toc-deployment-instructions">Deployment
         Instructions</a></li>
@@ -124,7 +129,7 @@ agent </span>  <br />
 <span> <em>Supervisor:</em> Andrea Omicini</span><br />
 <span> <em>Supervisor:</em> Giavanni Ciatto</span><br />
 </p>
-<p>2025-02-14</p>
+<p>2025-02-15</p>
 </div>
 </div>
 <h1 class="unnumbered" id="abstract">Abstract</h1>
@@ -150,6 +155,8 @@ them to make strategic decisions based on the context of the game.</p>
 <ul>
 <li><p>Casual player</p></li>
 <li><p>Make an HiLo strategic agent.</p></li>
+<li><p>Create a group of strategic agents that suggest moves to the
+player.</p></li>
 </ul></li>
 <li><p>Transpose agent decision on a GUI that shows a visual table and
 cards.</p></li>
@@ -168,6 +175,7 @@ options:</p>
 sense.</p></li>
 <li><p>3. HiLo agent that expoilts HiLO algorithm to count cards and
 decide autonomously how much money bet on a hand.</p></li>
+<li><p>4. Consensuos guided agent by different strategies.</p></li>
 </ul>
 <p>To test the agents implementation will be measured the amount of
 money won and risked and compared this data in a grafical
@@ -196,7 +204,7 @@ their level and knowledge about the game.</p></li>
 occupy time by a user or can be played by intelligent agent to instruct
 the user with some basic stategy of the game. <strong>MAS
 (Multi-agent-system)</strong> architecture is used here to coordinate
-the activities of the agents that are players and the dealer. A good
+the activities of the player agents and strategic agents. A good
 abstraction used is the one that compares the Environment typically used
 in MAS with the table game where agents, based on their intentions and
 belief react according to changes like:</p>
@@ -209,32 +217,84 @@ belief react according to changes like:</p>
 (virtual) table with cards and money on</p></li>
 </ul>
 <p>The interaction between agents is controlled by
-<strong>BlackJackEnvironment</strong> that encapsulates a gameTable
+<strong>TwentyOneEnvironment</strong> that encapsulates a gameTable
 object that contains most of the business logic of the game. This system
 includes also a user graphical interface for monitoring the developement
 of the game.</p>
 <h2 id="structure-domain-entities">Structure (domain entities)</h2>
-<p>The entities involved are typically the players and the dealer.</p>
+<div id="tab:domain_entities">
+<table>
+<caption>Domain Entities</caption>
+<thead>
+<tr>
+<th style="text-align: center;"><strong>Entity</strong></th>
+<th style="text-align: left;"><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Player</td>
+<td style="text-align: left;">The main participant who makes decisions
+based on game conditions.</td>
+</tr>
+<tr>
+<td style="text-align: center;">Dealer</td>
+<td style="text-align: left;">The entity responsible for managing the
+game, distributing cards, and enforcing rules.</td>
+</tr>
+<tr>
+<td style="text-align: center;">Strategic Agent</td>
+<td style="text-align: left;">An abstract entity that provides advice to
+the player and influences their decisions.</td>
+</tr>
+</tbody>
+</table>
+</div>
 <figure id="fig:classDiagram">
 <img src="report/img/classDiagram.png" />
 <figcaption>Diagramma delle classi</figcaption>
 </figure>
-<p>Which entities need to by modelled to reflect the domain? UML class
-diagram here with domain entities and possibly messages being
-exchanged</p>
 <h2 id="interaction">Interaction</h2>
-<p>How should entities interact with each others? UML activity /
-sequence diagram and protocols definitions.</p>
+<figure id="fig:classDiagram">
+<p><img src="report/img/sequenceDiagram.png" alt="image" /> <span
+id="fig:classDiagram" data-label="fig:classDiagram"></span></p>
+</figure>
+<figure id="fig:classDiagram">
+<img src="report/img/sequenceDiagram2.png" />
+<figcaption>Diagramma delle classi</figcaption>
+</figure>
 <figure id="fig:activityDiagram">
 <img src="report/img/activityDiagram.png" />
 <figcaption>Diagramma delle attività</figcaption>
 </figure>
-<h2 id="behaviour">Behaviour</h2>
-<p>How should each entity behave? UML State diagram.</p>
 <h2 id="architecture">Architecture</h2>
-<p>How are software pieces organised into software modules? UML
-component / package / deployment diagrams, data-flow among components,
-web API description.</p>
+<p>The project follows the basic guidelines of the MAS architecture, to
+support and divide the responsability a GameEnvironmentUtils has been
+made to mantain a cleaner code that handles the action and beliefs of
+the agents. The more complex case of study in which an agent player
+relies on strategist agent has been moved to a specifc package inside
+the asl directory. Noteworthy is the implementation of the
+TwentyOneEnvironment that is used for all the case studies, a little
+attention has been given to some functionalities that are needed only in
+certain scenarios. For example the strategist agents only have to know
+the cards of the player only at the end of the game to update their card
+count when in the other circumstances player updates his internal
+counter in real time when sees dealer cards or hits.</p>
+<pre id="lst:java_stand_action" style="java"
+data-caption="Java implementation of different behaviour based on specifc agent"
+data-label="lst:java_stand_action"><code>if(&quot;stand&quot;.equals(act)) {
+        this.appWindow.actionPerformed(GameCommand.STAND);
+        GameEnvUtils.checkBusted(this, agName, this.gamePanel.getDealer());
+        final List&lt;Integer&gt; cardSeenValues = new ArrayList&lt;&gt;();
+        // aggiunto le carte del dealer
+        cardSeenValues.addAll(this.gamePanel.getDealer().hand.stream().map(Card::getValue).collect(Collectors.toList()));
+        if(!&quot;waysmarterplayer&quot;.equals(agName) &amp;&amp; !&quot;smartplayer&quot;.equals(agName)){
+            //aggiungo anche le carte del giocatore a fine mano
+            cardSeenValues.addAll(this.gamePanel.getPlayer().hand.stream().map(Card::getValue).collect(Collectors.toList()));
+        }
+        GameEnvUtils.sendToAgentHandToCount(this, agName, cardSeenValues);
+        return true;
+    }</code></pre>
 <h1 id="salient-implementation-details">Salient implementation
 details</h1>
 <p>Anything potentially interesting / non-trivial and technologies
@@ -242,18 +302,24 @@ adopted to match the design. This section is expected to be short in
 case some documentation (e.g. Javadoc or Swagger Spec) has been produced
 for the software artefacts. This this case, the produced documentation
 should be referenced here.</p>
-<h1 id="validation">Validation</h1>
-<p>Choose a criterion for the evaluation of the produced software and
-its compliance to the requirements above. Description of automated (and
-manual) tests and their rationale. In case of a test-driven development,
-describe tests here and possibly report the amount of passing tests, the
-total amount of tests and, possibly, the test coverage.</p>
+<h2 id="asincronus-agents">Asincronus Agents</h2>
+<h2 id="hilo-agent">HiLo Agent</h2>
+<h2 id="consensuos">Consensuos</h2>
 <h1 id="deployment-instructions">Deployment Instructions</h1>
-<p>Explain here how to install and launch the produced software
-artefacts. Assume the software must be installed on a totally virgin
-environment. So, report any configuration step. Gradle and Docker may be
-useful here to ensure the deployment and launch processes to be
-easy.</p>
+<p>The software has quite a simple deployment, a gradle application is
+used to build and run all the case studied. Running the following
+commands will allow to test rispectively</p>
+<ul>
+<li><p>the "Smart" Agent.</p></li>
+<li><p>the waySmarterPlayer counting cards.</p></li>
+<li><p>the centralized strategic group of agents</p></li>
+</ul>
+<pre id="lst:bash_tasks" style="gradlestyle"
+data-caption="Runnable tasks" data-label="lst:bash_tasks"><code>Run tasks
+    ---------
+    runsmartPlayerMAS - Esegue il MAS smartPlayer.mas2j
+    runStrategistMAS - Esegue il MAS Strategist.mas2j
+    runwaySmarterPlayerMAS - Esegue il MAS waySmarterPlayer.mas2j</code></pre>
 <h1 id="usage-examples">Usage Examples</h1>
 <p>Show how to use the produced software artefacts. Ideally, there
 should be at least one example for each scenario proposed above.</p>
