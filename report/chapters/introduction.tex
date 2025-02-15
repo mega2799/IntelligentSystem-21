@@ -8,6 +8,7 @@
     \begin{itemize}
         \item Casual player
         \item Make an HiLo strategic agent.
+        \item Create a group of strategic agents that suggest moves to the player.
     \end{itemize}
     \item Transpose agent decision on a GUI that shows a visual table and cards.
     \item Measure the winning rate of the agents.
@@ -25,6 +26,7 @@ Final delivery will be a gradle project that has different running options:
     \item 1. Pure 21 game.
     \item 2. Dumb agent that plays with BDI defined by common sense.
     \item 3. HiLo agent that expoilts HiLO algorithm to count cards and decide autonomously how much money bet on a hand.
+    \item 4. Consensuos guided agent by different strategies.
 \end{itemize}
 
 To test the agents implementation will be measured the amount of money won and risked and compared this data in a grafical representation.
@@ -49,7 +51,7 @@ To test the agents implementation will be measured the amount of money won and r
 
 \chapter{Design}
 
-This is a multi-purpose system, it can be used as a classical game to occupy time by a user or can be played by intelligent agent to instruct the user with some basic stategy of the game. \textbf{MAS (Multi-agent-system)} architecture is used here to coordinate the activities of the agents that are players and the dealer. A good abstraction used is the one that compares the Environment typically used in MAS with the table game where agents, based on their intentions and belief react according to changes like: 
+This is a multi-purpose system, it can be used as a classical game to occupy time by a user or can be played by intelligent agent to instruct the user with some basic stategy of the game. \textbf{MAS (Multi-agent-system)} architecture is used here to coordinate the activities of the player agents and strategic agents. A good abstraction used is the one that compares the Environment typically used in MAS with the table game where agents, based on their intentions and belief react according to changes like: 
 \begin{itemize}
     \item Place the cards.
     \item Stand.
@@ -58,39 +60,78 @@ This is a multi-purpose system, it can be used as a classical game to occupy tim
     \item Every entity involved in the action can perfectly see the (virtual) table with cards and money on
  \end{itemize}
 
-The interaction between agents is controlled by \textbf{BlackJackEnvironment} that encapsulates a gameTable object that contains most of the business logic of the game. This system includes also a user graphical interface for monitoring the developement of the game.
+The interaction between agents is controlled by \textbf{TwentyOneEnvironment} that encapsulates a gameTable object that contains most of the business logic of the game. This system includes also a user graphical interface for monitoring the developement of the game.
 
 \section{Structure (domain entities)}
-The entities involved are typically the players and the dealer.
 
-\begin{figure}[ht]
+\begin{table}[h]
+    \centering
+    \renewcommand{\arraystretch}{1.3}
+    \begin{tabular}{|c|p{8cm}|}
+        \hline
+        \textbf{Entity} & \textbf{Description} \\
+        \hline
+        Player & The main participant who makes decisions based on game conditions. \\
+        \hline
+        Dealer & The entity responsible for managing the game, distributing cards, and enforcing rules. \\
+        \hline
+        Strategic Agent & An abstract entity that provides advice to the player and influences their decisions. \\
+        \hline
+    \end{tabular}
+    \caption{Domain Entities}
+    \label{tab:domain_entities}
+\end{table}
+
+\begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{report/img/classDiagram.png}
     \caption{Diagramma delle classi}
     \label{fig:classDiagram}
 \end{figure}
 
-
-Which entities need to by modelled to reflect the domain? UML class diagram here with
-domain entities and possibly messages being exchanged
-
 \section{Interaction}
-How should entities interact with each others? UML activity / sequence diagram and
-protocols definitions.
 
-\begin{figure}[ht]
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.55]{report/img/sequenceDiagram.png}
+    \label{fig:classDiagram}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.55]{report/img/sequenceDiagram2.png}
+    \caption{Diagramma delle classi}
+    \label{fig:classDiagram}
+\end{figure}
+
+\begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{report/img/activityDiagram.png}
     \caption{Diagramma delle attività}
     \label{fig:activityDiagram}
 \end{figure}
 
-\section{Behaviour}
-How should each entity behave? UML State diagram.
 
 \section{Architecture}
-How are software pieces organised into software modules? UML component / package /
-deployment diagrams, data-flow among components, web API description.
+% How are software pieces organised into software modules? UML component / package /
+% deployment diagrams, data-flow among components, web API description.
+
+The project follows the basic guidelines of the MAS architecture, to support and divide the responsability a GameEnvironmentUtils has been made to mantain a cleaner code that handles the action and beliefs of the agents. The more complex case of study in which an agent player relies on strategist agent has been moved to a specifc package inside the asl directory. Noteworthy is the implementation of the TwentyOneEnvironment that is used for all the case studies, a little attention has been given to some functionalities that are needed only in certain scenarios. For example the strategist agents only have to know the cards of the player only at the end of the game to update their card count when in the other circumstances player updates his internal counter in real time when sees dealer cards or hits.
+
+\begin{lstlisting}[style=java, caption=Java implementation of different behaviour based on specifc agent, label=lst:java_stand_action]
+    if("stand".equals(act)) {
+        this.appWindow.actionPerformed(GameCommand.STAND);
+        GameEnvUtils.checkBusted(this, agName, this.gamePanel.getDealer());
+        final List<Integer> cardSeenValues = new ArrayList<>();
+        // aggiunto le carte del dealer
+        cardSeenValues.addAll(this.gamePanel.getDealer().hand.stream().map(Card::getValue).collect(Collectors.toList()));
+        if(!"waysmarterplayer".equals(agName) && !"smartplayer".equals(agName)){
+            //aggiungo anche le carte del giocatore a fine mano
+            cardSeenValues.addAll(this.gamePanel.getPlayer().hand.stream().map(Card::getValue).collect(Collectors.toList()));
+        }
+        GameEnvUtils.sendToAgentHandToCount(this, agName, cardSeenValues);
+        return true;
+    }
+\end{lstlisting}
 
 
 \chapter{Salient implementation details}
@@ -99,17 +140,36 @@ design. This section is expected to be short in case some documentation (e.g. Ja
 or Swagger Spec) has been produced for the software artefacts. This this case, the
 produced documentation should be referenced here.
 
-\chapter{Validation}
-Choose a criterion for the evaluation of the produced software and its compliance
-to the requirements above. Description of automated (and manual) tests and their
-rationale. In case of a test-driven development, describe tests here and possibly report
-the amount of passing tests, the total amount of tests and, possibly, the test coverage.
+\section{Asincronus Agents}
+
+\section{HiLo Agent}
+
+\section{Consensuos}
+
+% \chapter{Validation}
+% Choose a criterion for the evaluation of the produced software and its compliance
+% to the requirements above. Description of automated (and manual) tests and their
+% rationale. In case of a test-driven development, describe tests here and possibly report
+% the amount of passing tests, the total amount of tests and, possibly, the test coverage.
 
 \chapter{Deployment Instructions}
-Explain here how to install and launch the produced software artefacts. Assume the
-software must be installed on a totally virgin environment. So, report any configuration
-step. Gradle and Docker may be useful here to ensure the deployment and launch
-processes to be easy.
+
+The software has quite a simple deployment, a gradle application is used to build and run all the case studied. Running the following commands will allow to test rispectively
+\begin{itemize}
+    \item the "Smart" Agent.
+    \item the waySmarterPlayer counting cards.
+    \item the centralized strategic group of agents
+\end{itemize}
+
+
+
+\begin{lstlisting}[style=gradlestyle, caption=Runnable tasks, label=lst:bash_tasks]
+    Run tasks
+    ---------
+    runsmartPlayerMAS - Esegue il MAS smartPlayer.mas2j
+    runStrategistMAS - Esegue il MAS Strategist.mas2j
+    runwaySmarterPlayerMAS - Esegue il MAS waySmarterPlayer.mas2j
+\end{lstlisting}
 
 \chapter{Usage Examples}
 Show how to use the produced software artefacts. Ideally, there should be at least one
