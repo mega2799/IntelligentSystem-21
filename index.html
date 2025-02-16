@@ -46,6 +46,75 @@
     <meta name="generator" content="pandoc" />
   <title>ISE-report 21 game</title>
   <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #ffffff;
+    color: #a0a0a0;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #a0a0a0;  padding-left: 4px; }
+div.sourceCode
+  { color: #1f1c1b; background-color: #ffffff; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #1f1c1b; } /* Normal */
+code span.al { color: #bf0303; background-color: #f7e6e6; font-weight: bold; } /* Alert */
+code span.an { color: #ca60ca; } /* Annotation */
+code span.at { color: #0057ae; } /* Attribute */
+code span.bn { color: #b08000; } /* BaseN */
+code span.bu { color: #644a9b; font-weight: bold; } /* BuiltIn */
+code span.cf { color: #1f1c1b; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #924c9d; } /* Char */
+code span.cn { color: #aa5500; } /* Constant */
+code span.co { color: #898887; } /* Comment */
+code span.cv { color: #0095ff; } /* CommentVar */
+code span.do { color: #607880; } /* Documentation */
+code span.dt { color: #0057ae; } /* DataType */
+code span.dv { color: #b08000; } /* DecVal */
+code span.er { color: #bf0303; text-decoration: underline; } /* Error */
+code span.ex { color: #0095ff; font-weight: bold; } /* Extension */
+code span.fl { color: #b08000; } /* Float */
+code span.fu { color: #644a9b; } /* Function */
+code span.im { color: #ff5500; } /* Import */
+code span.in { color: #b08000; } /* Information */
+code span.kw { color: #1f1c1b; font-weight: bold; } /* Keyword */
+code span.op { color: #1f1c1b; } /* Operator */
+code span.ot { color: #006e28; } /* Other */
+code span.pp { color: #006e28; } /* Preprocessor */
+code span.re { color: #0057ae; background-color: #e0e9f8; } /* RegionMarker */
+code span.sc { color: #3daee9; } /* SpecialChar */
+code span.ss { color: #ff5500; } /* SpecialString */
+code span.st { color: #bf0303; } /* String */
+code span.va { color: #0057ae; } /* Variable */
+code span.vs { color: #bf0303; } /* VerbatimString */
+code span.wa { color: #bf0303; } /* Warning */
+  </style>
 </head>
 <body>
 
@@ -77,7 +146,17 @@
         </ul></li>
         <li><a href="#background-and-link-to-the-theory"
         id="toc-background-and-link-to-the-theory">Background and link
-        to the theory</a></li>
+        to the theory</a>
+        <ul>
+        <li><a href="#basic-rules" id="toc-basic-rules">Basic
+        Rules</a></li>
+        <li><a href="#objective-of-the-game"
+        id="toc-objective-of-the-game">Objective of the Game</a></li>
+        <li><a href="#dealers-rules" id="toc-dealers-rules">Dealer’s
+        Rules</a></li>
+        <li><a href="#winning-and-payouts"
+        id="toc-winning-and-payouts">Winning and Payouts</a></li>
+        </ul></li>
         <li><a href="#requirements-analysis"
         id="toc-requirements-analysis">Requirements Analysis</a>
         <ul>
@@ -98,18 +177,27 @@
         id="toc-salient-implementation-details">Salient implementation
         details</a>
         <ul>
-        <li><a href="#asincronus-agents"
-        id="toc-asincronus-agents">Asincronus Agents</a></li>
-        <li><a href="#hilo-agent" id="toc-hilo-agent">HiLo
-        Agent</a></li>
-        <li><a href="#consensuos"
-        id="toc-consensuos">Consensuos</a></li>
+        <li><a href="#smart-novice-agent"
+        id="toc-smart-novice-agent">Smart "Novice" Agent</a></li>
+        <li><a href="#way-smarter-agent" id="toc-way-smarter-agent">Way
+        Smarter Agent</a></li>
+        <li><a href="#consensuos" id="toc-consensuos">Consensuos</a>
+        <ul>
+        <li><a href="#card-counting-method-hilo"
+        id="toc-card-counting-method-hilo">Card Counting Method:
+        “HiLo”</a></li>
+        <li><a href="#card-counting-system-zen-count"
+        id="toc-card-counting-system-zen-count">Card Counting System:
+        “Zen Count”</a></li>
+        <li><a href="#system-omega-ii" id="toc-system-omega-ii">System
+        “Omega II”</a></li>
+        </ul></li>
+        <li><a href="#async-agents" id="toc-async-agents">Async
+        Agents</a></li>
         </ul></li>
         <li><a href="#deployment-instructions"
         id="toc-deployment-instructions">Deployment
         Instructions</a></li>
-        <li><a href="#usage-examples" id="toc-usage-examples">Usage
-        Examples</a></li>
         <li><a href="#conclusions"
         id="toc-conclusions">Conclusions</a></li>
         </ul>
@@ -129,7 +217,7 @@ agent </span>  <br />
 <span> <em>Supervisor:</em> Andrea Omicini</span><br />
 <span> <em>Supervisor:</em> Giavanni Ciatto</span><br />
 </p>
-<p>2025-02-15</p>
+<p>2025-02-16</p>
 </div>
 </div>
 <h1 class="unnumbered" id="abstract">Abstract</h1>
@@ -186,6 +274,57 @@ theory</h1>
 mentioned in Section 3) • Relevant interaction patterns (the ones
 mentioned in Section 3) • Relevant software frameworks (the ones
 mentioned in Sections 3 and 4)</p>
+<p><strong>Blackjack</strong> is a popular casino card game where
+players compete against the dealer to get a score as close as possible
+to <strong>21</strong> without exceeding it. It is a game of skill,
+strategy, and luck, widely played in both physical and online
+casinos.</p>
+<h2 id="basic-rules">Basic Rules</h2>
+<ul>
+<li><p>The game is played with one or more decks of <strong>52
+cards</strong>.</p></li>
+<li><p>Numbered cards (2-10) have their face value, face cards (J, Q, K)
+are worth <strong>10</strong>, and the Ace can be worth <strong>1 or
+11</strong>, depending on what benefits the player.</p></li>
+<li><p>Each player and the dealer receive <strong>two initial
+cards</strong>. The dealer reveals one of their cards.</p></li>
+<li><p>The player can decide to:</p>
+<ul>
+<li><p><strong>Hit</strong> – draw another card.</p></li>
+<li><p><strong>Stand</strong> – keep the current hand.</p></li>
+<li><p><strong>Double Down</strong> – double the bet and receive only
+one more card.</p></li>
+<li><p><strong>Split</strong> – if holding a pair, the player can split
+them into two separate hands.</p></li>
+</ul></li>
+</ul>
+<h2 id="objective-of-the-game">Objective of the Game</h2>
+<ul>
+<li><p>The goal is to have a score <strong>closer to 21</strong> than
+the dealer without exceeding it.</p></li>
+<li><p>If the score exceeds <strong>21</strong>, the player loses
+immediately (<em>bust</em>).</p></li>
+<li><p>If the dealer exceeds 21, all remaining players win.</p></li>
+</ul>
+<h2 id="dealers-rules">Dealer’s Rules</h2>
+<ul>
+<li><p>The dealer must <strong>draw cards until reaching
+16</strong>.</p></li>
+<li><p>The dealer must <strong>stand on 17 or higher</strong>.</p></li>
+</ul>
+<h2 id="winning-and-payouts">Winning and Payouts</h2>
+<ul>
+<li><p>If the player beats the dealer, they win an amount equal to their
+bet.</p></li>
+<li><p>If the player gets a <strong>natural Blackjack</strong> (Ace + 10
+or face card), they win <strong>1.5 times</strong> their bet.</p></li>
+<li><p>If the player and dealer have the same score, the bet is returned
+(<em>Push</em>).</p></li>
+</ul>
+<p>Blackjack is a game that combines luck and strategy, with optimal
+strategy charts to maximize winning chances. Would you like some tips on
+basic strategy?</p>
+<p>//TODO inserire alcuni screen di gioco</p>
 <h1 id="requirements-analysis">Requirements Analysis</h1>
 <h2 id="implicit-requirements">Implicit Requirements</h2>
 <ul>
@@ -268,18 +407,18 @@ id="fig:classDiagram" data-label="fig:classDiagram"></span></p>
 <figcaption>Diagramma delle attività</figcaption>
 </figure>
 <h2 id="architecture">Architecture</h2>
-<p>The project follows the basic guidelines of the MAS architecture, to
-support and divide the responsability a GameEnvironmentUtils has been
-made to mantain a cleaner code that handles the action and beliefs of
-the agents. The more complex case of study in which an agent player
-relies on strategist agent has been moved to a specifc package inside
-the asl directory. Noteworthy is the implementation of the
-TwentyOneEnvironment that is used for all the case studies, a little
-attention has been given to some functionalities that are needed only in
-certain scenarios. For example the strategist agents only have to know
-the cards of the player only at the end of the game to update their card
-count when in the other circumstances player updates his internal
-counter in real time when sees dealer cards or hits.</p>
+<p>The project follows the basic guidelines of the MAS architecture. The
+more complex case of study in which an agent player relies on strategist
+agents has been moved to a specifc package inside the asl directory.
+Noteworthy is the implementation of the TwentyOneEnvironment that is
+used for all the case studies, to support and divide the responsability
+a GameEnvironmentUtils has been made to mantain a cleaner code to handle
+the action and beliefs of the agents. Attention has been given to some
+functionalities that are needed only in certain scenarios. For example
+the strategist agents only have to know the cards of the player only at
+the end of the game to update their card count when in the other
+circumstances player updates his internal counter in real time when sees
+dealer cards or hits.</p>
 <pre id="lst:java_stand_action" style="java"
 data-caption="Java implementation of different behaviour based on specifc agent"
 data-label="lst:java_stand_action"><code>if(&quot;stand&quot;.equals(act)) {
@@ -302,9 +441,92 @@ adopted to match the design. This section is expected to be short in
 case some documentation (e.g. Javadoc or Swagger Spec) has been produced
 for the software artefacts. This this case, the produced documentation
 should be referenced here.</p>
-<h2 id="asincronus-agents">Asincronus Agents</h2>
-<h2 id="hilo-agent">HiLo Agent</h2>
+<p>The approach to solve the goal of creating agents more and more
+capable of playing was to create each agent smarter than the one
+before.</p>
+<h2 id="smart-novice-agent">Smart "Novice" Agent</h2>
+<p>First approach player only know the guidelines of the game and tries
+to stand below a fixed score and bet always the minium wage. The smart
+player is defined more or less by the routine of the game and doesn’t
+care about the cards appeared.</p>
+<h2 id="way-smarter-agent">Way Smarter Agent</h2>
+<p>Agent capable or memorize each card appeared on the table, both his
+and dealer’s card contribute to alterate his perceptions and modify his
+behaviour on behalf of a simple strategy, the HiLo. Keeping a
+conservative attitude of staying around the 18 points in hand the HiLo
+agents tries to overcome the dealer and have a dynamic behaviour
+following this idea:</p>
+<ul>
+<li><p>If the count is <strong>high</strong>
+(<code>card_count &gt; 2</code>), it means there are many high cards in
+the deck, so we can choose to stand earlier.</p></li>
+<li><p>If the count is <strong>low</strong>
+(<code>card_count &lt; -2</code>), the deck is full of low cards, so we
+can take the risk of hitting even with a higher hand.</p></li>
+</ul>
+<div class="sourceCode" id="cb1" data-language="Prolog"><pre
+class="sourceCode prolog"><code class="sourceCode prolog"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">+</span>hand_value(<span class="dt">V</span>) <span class="fu">:</span> ?card_count(<span class="dt">C</span>) &amp; <span class="dt">V</span> <span class="dt">&lt;</span> (<span class="dv">18</span> <span class="dt">-</span> <span class="dt">C</span>) &lt;-</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">!</span>debug_print([<span class="ot">&quot;</span><span class="er">Valore mano</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span>, <span class="dt">V</span>, <span class="ot">&quot;</span><span class="er"> </span><span class="ot">|</span><span class="er"> Card Count</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span>, <span class="dt">C</span>, <span class="ot">&quot;</span><span class="er"> </span><span class="ot">=&gt;</span><span class="er"> Chiedo carta</span><span class="ot">!&quot;</span>])<span class="kw">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">!</span>ask_card<span class="kw">.</span></span></code></pre></div>
 <h2 id="consensuos">Consensuos</h2>
+<p>A facade player is at the table in the meanwhile he has a way of
+comunicate with some other agents that are specialized in differente
+strategiests of counting cards, after each hand he comunicates both his
+and dealer’s hand to them so that they can update their inner count of
+cards and advice him what to do.</p>
+<h3 id="card-counting-method-hilo">Card Counting Method: “HiLo”</h3>
+<p>You have already mentioned the HiLo (High-Low) method, which is one
+of the most widely used systems. In this system, cards are assigned the
+following values:</p>
+<ul>
+<li><p>Cards from 2 to 6 are worth +1</p></li>
+<li><p>Cards from 7 to 9 are neutral (0)</p></li>
+<li><p>Cards 10, J, Q, K, and A are worth -1</p></li>
+</ul>
+<p>The count helps determine when there are more high cards (10, J, Q,
+K, A) in the deck, which favors the player, and when the deck is
+favorable to the dealer.</p>
+<h3 id="card-counting-system-zen-count">Card Counting System: “Zen
+Count”</h3>
+<p>This is another counting system similar to HiLo but more complex. In
+this case, cards are assigned different values:</p>
+<ul>
+<li><p>2-3-4-5-6 = +1</p></li>
+<li><p>7-8 = 0</p></li>
+<li><p>9 = -1</p></li>
+<li><p>10-J-Q-K-A = -2</p></li>
+</ul>
+<p>This system aims to improve counting accuracy but requires more
+attention and skill. It tends to be more precise than HiLo in certain
+scenarios but is more difficult to master.</p>
+<h3 id="system-omega-ii">System “Omega II”</h3>
+<p>The Omega II system is more complex and combines different card
+counting approaches. The cards are assigned the following values:</p>
+<ul>
+<li><p>2-3 = +1</p></li>
+<li><p>4-5-6 = +2</p></li>
+<li><p>7 = +1</p></li>
+<li><p>8 = 0</p></li>
+<li><p>9 = -1</p></li>
+<li><p>10-A = -2</p></li>
+</ul>
+<p>This system provides greater accuracy compared to simpler systems
+such as HiLo and KO, but it can be more challenging to apply due to its
+complexity.</p>
+<p>Each agent then comunicates his suggested Bet and Stopping score,
+once the player has all the informations he choses who trust and fllows
+his guidelines.</p>
+<div class="sourceCode" id="cb2" data-language="Prolog"><pre
+class="sourceCode prolog"><code class="sourceCode prolog"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">+</span>suggest_bet(<span class="dt">G</span>) &lt;-  </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        ?card_count(<span class="dt">C</span>)<span class="kw">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>wait(<span class="dv">400</span>)<span class="kw">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>print(<span class="ot">&quot;</span><span class="er">Card  count vale</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">C</span>)<span class="kw">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&gt;</span> <span class="dv">2</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">100</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">19</span> <span class="kw">}</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&lt;</span> <span class="dt">-</span><span class="dv">1</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">10</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">16</span> <span class="kw">}</span> </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&gt;=</span> <span class="dt">-</span><span class="dv">1</span> &amp; <span class="dt">C</span> &lt;= <span class="dv">2</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">25</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">18</span> <span class="kw">}</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>print(<span class="ot">&quot;</span><span class="er">Suggerisco di puntare</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Bet</span><span class="kw">,</span> <span class="ot">&quot;</span><span class="er"> e di fermarsi a</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Stop</span>)<span class="kw">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>send(advicedPlayer<span class="kw">,</span> tell<span class="kw">,</span> suggested_bet(<span class="dt">Bet</span><span class="kw">,</span> <span class="dt">Stop</span>))<span class="kw">.</span></span></code></pre></div>
+<h2 id="async-agents">Async Agents</h2>
 <h1 id="deployment-instructions">Deployment Instructions</h1>
 <p>The software has quite a simple deployment, a gradle application is
 used to build and run all the case studied. Running the following
@@ -320,9 +542,6 @@ data-caption="Runnable tasks" data-label="lst:bash_tasks"><code>Run tasks
     runsmartPlayerMAS - Esegue il MAS smartPlayer.mas2j
     runStrategistMAS - Esegue il MAS Strategist.mas2j
     runwaySmarterPlayerMAS - Esegue il MAS waySmarterPlayer.mas2j</code></pre>
-<h1 id="usage-examples">Usage Examples</h1>
-<p>Show how to use the produced software artefacts. Ideally, there
-should be at least one example for each scenario proposed above.</p>
 <h1 id="conclusions">Conclusions</h1>
 <p>Recap what you did.</p>
             </div>
