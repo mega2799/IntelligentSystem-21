@@ -38,6 +38,51 @@ To test the agents implementation will be measured the amount of money won and r
 • Relevant interaction patterns (the ones mentioned in Section 3)
 • Relevant software frameworks (the ones mentioned in Sections 3 and 4)
 
+\textbf{Blackjack} is a popular casino card game where players compete against the dealer to get a score as close as possible to \textbf{21} without exceeding it. It is a game of skill, strategy, and luck, widely played in both physical and online casinos.
+
+\section{Basic Rules}
+
+\begin{itemize}
+    \item The game is played with one or more decks of \textbf{52 cards}.
+    \item Numbered cards (2-10) have their face value, face cards (J, Q, K) are worth \textbf{10}, and the Ace can be worth \textbf{1 or 11}, depending on what benefits the player.
+    \item Each player and the dealer receive \textbf{two initial cards}. The dealer reveals one of their cards.
+    \item The player can decide to:
+    \begin{itemize}
+        \item \textbf{Hit} -- draw another card.
+        \item \textbf{Stand} -- keep the current hand.
+        \item \textbf{Double Down} -- double the bet and receive only one more card.
+        \item \textbf{Split} -- if holding a pair, the player can split them into two separate hands.
+    \end{itemize}
+\end{itemize}
+
+\section{Objective of the Game}
+
+\begin{itemize}
+    \item The goal is to have a score \textbf{closer to 21} than the dealer without exceeding it.
+    \item If the score exceeds \textbf{21}, the player loses immediately (\textit{bust}).
+    \item If the dealer exceeds 21, all remaining players win.
+\end{itemize}
+
+\section{Dealer's Rules}
+
+\begin{itemize}
+    \item The dealer must \textbf{draw cards until reaching 16}.
+    \item The dealer must \textbf{stand on 17 or higher}.
+\end{itemize}
+
+\section{Winning and Payouts}
+
+\begin{itemize}
+    \item If the player beats the dealer, they win an amount equal to their bet.
+    \item If the player gets a \textbf{natural Blackjack} (Ace + 10 or face card), they win \textbf{1.5 times} their bet.
+    \item If the player and dealer have the same score, the bet is returned (\textit{Push}).
+\end{itemize}
+
+Blackjack is a game that combines luck and strategy, with optimal strategy charts to maximize winning chances. Would you like some tips on basic strategy?
+
+
+//TODO inserire alcuni screen di gioco 
+
 
 \chapter{Requirements Analysis}
 
@@ -115,7 +160,7 @@ The interaction between agents is controlled by \textbf{TwentyOneEnvironment} th
 % How are software pieces organised into software modules? UML component / package /
 % deployment diagrams, data-flow among components, web API description.
 
-The project follows the basic guidelines of the MAS architecture, to support and divide the responsability a GameEnvironmentUtils has been made to mantain a cleaner code that handles the action and beliefs of the agents. The more complex case of study in which an agent player relies on strategist agent has been moved to a specifc package inside the asl directory. Noteworthy is the implementation of the TwentyOneEnvironment that is used for all the case studies, a little attention has been given to some functionalities that are needed only in certain scenarios. For example the strategist agents only have to know the cards of the player only at the end of the game to update their card count when in the other circumstances player updates his internal counter in real time when sees dealer cards or hits.
+The project follows the basic guidelines of the MAS architecture. The more complex case of study in which an agent player relies on strategist agents has been moved to a specifc package inside the asl directory. Noteworthy is the implementation of the TwentyOneEnvironment that is used for all the case studies, to support and divide the responsability a GameEnvironmentUtils has been made to mantain a cleaner code to handle the action and beliefs of the agents. Attention has been given to some functionalities that are needed only in certain scenarios. For example the strategist agents only have to know the cards of the player only at the end of the game to update their card count when in the other circumstances player updates his internal counter in real time when sees dealer cards or hits.
 
 \begin{lstlisting}[style=java, caption=Java implementation of different behaviour based on specifc agent, label=lst:java_stand_action]
     if("stand".equals(act)) {
@@ -140,11 +185,87 @@ design. This section is expected to be short in case some documentation (e.g. Ja
 or Swagger Spec) has been produced for the software artefacts. This this case, the
 produced documentation should be referenced here.
 
-\section{Asincronus Agents}
+The approach to solve the goal of creating agents more and more capable of playing was to create each agent smarter than the one before.
 
-\section{HiLo Agent}
+\section{Smart "Novice" Agent}
+First approach player only know the guidelines of the game and tries to stand below a fixed score and bet always the minium wage. The smart player is defined more or less by the routine of the game and doesn't care about the cards appeared.
+
+\section{Way Smarter Agent}
+Agent capable or memorize each card appeared on the table, both his and dealer's card contribute to alterate his perceptions and modify his behaviour on behalf of a simple strategy, the HiLo.
+Keeping a conservative attitude of staying around the 18 points in hand the HiLo agents tries to overcome the dealer and have a dynamic behaviour following this idea:
+
+\begin{itemize}
+    \item If the count is \textbf{high} (\texttt{card\_count > 2}), it means there are many high cards in the deck, so we can choose to stand earlier.
+    \item If the count is \textbf{low} (\texttt{card\_count < -2}), the deck is full of low cards, so we can take the risk of hitting even with a higher hand.
+\end{itemize}
+
+\begin{lstlisting}[language=Prolog]
+    +hand_value(V) : ?card_count(C) & V < (18 - C) <-
+    !debug_print(["Valore mano: ", V, " | Card Count: ", C, " => Chiedo carta!"]);
+    !ask_card.
+\end{lstlisting}
 
 \section{Consensuos}
+
+A facade player is at the table in the meanwhile he has a way of comunicate with some other agents that are specialized in differente strategiests of counting cards, after each hand he comunicates both his and dealer's hand to them so that they can update their inner count of cards and advice him what to do.
+
+\subsection{Card Counting Method: ``HiLo''}
+
+You have already mentioned the HiLo (High-Low) method, which is one of the most widely used systems. In this system, cards are assigned the following values:
+
+\begin{itemize}
+    \item Cards from 2 to 6 are worth +1
+    \item Cards from 7 to 9 are neutral (0)
+    \item Cards 10, J, Q, K, and A are worth -1
+\end{itemize}
+
+The count helps determine when there are more high cards (10, J, Q, K, A) in the deck, which favors the player, and when the deck is favorable to the dealer.
+
+\subsection{Card Counting System: ``Zen Count''}
+
+This is another counting system similar to HiLo but more complex. In this case, cards are assigned different values:
+
+\begin{itemize}
+    \item 2-3-4-5-6 = +1
+    \item 7-8 = 0
+    \item 9 = -1
+    \item 10-J-Q-K-A = -2
+\end{itemize}
+
+This system aims to improve counting accuracy but requires more attention and skill. It tends to be more precise than HiLo in certain scenarios but is more difficult to master.
+
+\subsection{System ``Omega II''}
+
+The Omega II system is more complex and combines different card counting approaches. The cards are assigned the following values:
+
+\begin{itemize}
+    \item 2-3 = +1
+    \item 4-5-6 = +2
+    \item 7 = +1
+    \item 8 = 0
+    \item 9 = -1
+    \item 10-A = -2
+\end{itemize}
+
+This system provides greater accuracy compared to simpler systems such as HiLo and KO, but it can be more challenging to apply due to its complexity.
+
+Each agent then comunicates his suggested Bet and Stopping score, once the player has all the informations he choses who trust and fllows his guidelines. 
+
+\begin{lstlisting}[language=Prolog]
+    +suggest_bet(G) <-  
+        ?card_count(C);
+        .wait(400);
+        .print("Card  count vale: ", C);
+        if (C > 2) { Bet = 100; Stop = 19 } 
+        if (C < -1) { Bet = 10; Stop = 16 } 
+        if (C >= -1 & C <= 2) { Bet = 25; Stop = 18 }
+        .print("Suggerisco di puntare: ", Bet, " e di fermarsi a: ", Stop);
+        .send(advicedPlayer, tell, suggested_bet(Bet, Stop)).
+\end{lstlisting}
+
+\section{Async Agents}
+
+
 
 % \chapter{Validation}
 % Choose a criterion for the evaluation of the produced software and its compliance
@@ -171,8 +292,5 @@ The software has quite a simple deployment, a gradle application is used to buil
     runwaySmarterPlayerMAS - Esegue il MAS waySmarterPlayer.mas2j
 \end{lstlisting}
 
-\chapter{Usage Examples}
-Show how to use the produced software artefacts. Ideally, there should be at least one
-example for each scenario proposed above.
 \chapter{Conclusions}
 Recap what you did.
