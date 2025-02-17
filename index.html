@@ -198,8 +198,17 @@ code span.wa { color: #bf0303; } /* Warning */
         <li><a href="#deployment-instructions"
         id="toc-deployment-instructions">Deployment
         Instructions</a></li>
-        <li><a href="#conclusions"
-        id="toc-conclusions">Conclusions</a></li>
+        <li><a href="#conclusions" id="toc-conclusions">Conclusions</a>
+        <ul>
+        <li><a href="#smart-agent" id="toc-smart-agent">Smart
+        Agent</a></li>
+        <li><a href="#way-smarter-agent-1"
+        id="toc-way-smarter-agent-1">Way Smarter Agent</a></li>
+        <li><a href="#strategist"
+        id="toc-strategist">Strategist</a></li>
+        <li><a href="#future-developments"
+        id="toc-future-developments">Future developments</a></li>
+        </ul></li>
         </ul>
 
         </div>
@@ -217,7 +226,7 @@ agent </span>  <br />
 <span> <em>Supervisor:</em> Andrea Omicini</span><br />
 <span> <em>Supervisor:</em> Giavanni Ciatto</span><br />
 </p>
-<p>2025-02-16</p>
+<p>2025-02-17</p>
 </div>
 </div>
 <h1 class="unnumbered" id="abstract">Abstract</h1>
@@ -231,8 +240,8 @@ Deck will be the classical 52 cards in two colors so 104 cards and when
 all the cards are used another deck will be used so the game could go
 on.  <br />
 Expectation are to find the ideal BDI to create an agent capable of
-understand when is hand is gonna win so raise the bet and the
-opposite.</p>
+understand when is hand is gonna win so raise the bet and capapable of
+doing the opposite.</p>
 <h1 id="ch:goal">Goal/Objectives</h1>
 <h2 id="goals-of-this-project">Goals of this project:</h2>
 <ul>
@@ -270,10 +279,6 @@ money won and risked and compared this data in a grafical
 representation.</p>
 <h1 id="background-and-link-to-the-theory">Background and link to the
 theory</h1>
-<p>(To be written at the end) • Relevant architectural styles (the ones
-mentioned in Section 3) • Relevant interaction patterns (the ones
-mentioned in Section 3) • Relevant software frameworks (the ones
-mentioned in Sections 3 and 4)</p>
 <p><strong>Blackjack</strong> is a popular casino card game where
 players compete against the dealer to get a score as close as possible
 to <strong>21</strong> without exceeding it. It is a game of skill,
@@ -281,8 +286,7 @@ strategy, and luck, widely played in both physical and online
 casinos.</p>
 <h2 id="basic-rules">Basic Rules</h2>
 <ul>
-<li><p>The game is played with one or more decks of <strong>52
-cards</strong>.</p></li>
+<li><p>The game is played with one or more decks.</p></li>
 <li><p>Numbered cards (2-10) have their face value, face cards (J, Q, K)
 are worth <strong>10</strong>, and the Ace can be worth <strong>1 or
 11</strong>, depending on what benefits the player.</p></li>
@@ -466,8 +470,8 @@ can take the risk of hitting even with a higher hand.</p></li>
 </ul>
 <div class="sourceCode" id="cb1" data-language="Prolog"><pre
 class="sourceCode prolog"><code class="sourceCode prolog"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">+</span>hand_value(<span class="dt">V</span>) <span class="fu">:</span> ?card_count(<span class="dt">C</span>) &amp; <span class="dt">V</span> <span class="dt">&lt;</span> (<span class="dv">18</span> <span class="dt">-</span> <span class="dt">C</span>) &lt;-</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">!</span>debug_print([<span class="ot">&quot;</span><span class="er">Valore mano</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span>, <span class="dt">V</span>, <span class="ot">&quot;</span><span class="er"> </span><span class="ot">|</span><span class="er"> Card Count</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span>, <span class="dt">C</span>, <span class="ot">&quot;</span><span class="er"> </span><span class="ot">=&gt;</span><span class="er"> Chiedo carta</span><span class="ot">!&quot;</span>])<span class="kw">;</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">!</span>ask_card<span class="kw">.</span></span></code></pre></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">!</span>debug_print([<span class="ot">&quot;</span><span class="er">Valore mano</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span>, <span class="dt">V</span>, <span class="ot">&quot;</span><span class="er"> </span><span class="ot">|</span><span class="er"> Card Count</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span>, <span class="dt">C</span>, <span class="ot">&quot;</span><span class="er"> </span><span class="ot">=&gt;</span><span class="er"> Chiedo carta</span><span class="ot">!&quot;</span>])<span class="kw">;</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">!</span>ask_card<span class="kw">.</span></span></code></pre></div>
 <h2 id="consensuos">Consensuos</h2>
 <p>A facade player is at the table in the meanwhile he has a way of
 comunicate with some other agents that are specialized in differente
@@ -513,20 +517,44 @@ counting approaches. The cards are assigned the following values:</p>
 <p>This system provides greater accuracy compared to simpler systems
 such as HiLo and KO, but it can be more challenging to apply due to its
 complexity.</p>
-<p>Each agent then comunicates his suggested Bet and Stopping score,
-once the player has all the informations he choses who trust and fllows
-his guidelines.</p>
-<div class="sourceCode" id="cb2" data-language="Prolog"><pre
-class="sourceCode prolog"><code class="sourceCode prolog"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">+</span>suggest_bet(<span class="dt">G</span>) &lt;-  </span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        ?card_count(<span class="dt">C</span>)<span class="kw">;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>wait(<span class="dv">400</span>)<span class="kw">;</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>print(<span class="ot">&quot;</span><span class="er">Card  count vale</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">C</span>)<span class="kw">;</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&gt;</span> <span class="dv">2</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">100</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">19</span> <span class="kw">}</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&lt;</span> <span class="dt">-</span><span class="dv">1</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">10</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">16</span> <span class="kw">}</span> </span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&gt;=</span> <span class="dt">-</span><span class="dv">1</span> &amp; <span class="dt">C</span> &lt;= <span class="dv">2</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">25</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">18</span> <span class="kw">}</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>print(<span class="ot">&quot;</span><span class="er">Suggerisco di puntare</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Bet</span><span class="kw">,</span> <span class="ot">&quot;</span><span class="er"> e di fermarsi a</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Stop</span>)<span class="kw">;</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>send(advicedPlayer<span class="kw">,</span> tell<span class="kw">,</span> suggested_bet(<span class="dt">Bet</span><span class="kw">,</span> <span class="dt">Stop</span>))<span class="kw">.</span></span></code></pre></div>
 <h2 id="async-agents">Async Agents</h2>
+<p>Player before looking at his cards asks an advice to his strategists
+waiting for an answer through a send with askOne performative wait for
+his advice and the collecting all the adivces to build up his intentions
+on how much money bet and what’s the stopping point of his hand.</p>
+<div class="sourceCode" id="cb2" data-language="Prolog"><pre
+class="sourceCode prolog"><code class="sourceCode prolog"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">+</span><span class="kw">!</span>decide_bet &lt;-</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>print(<span class="ot">&quot;</span><span class="er">Chiedo consiglio per la puntata</span><span class="ot">&quot;</span>)<span class="kw">;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        ?game(<span class="dt">G</span>)<span class="kw">;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>send(hilo<span class="kw">,</span> askOne<span class="kw">,</span> suggest_bet(<span class="dt">_</span>)<span class="kw">,</span>  <span class="dt">HiloResponse</span>)<span class="kw">;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="kw">!</span><span class="dt">HiloResponse</span><span class="kw">;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>send(omega2<span class="kw">,</span> askOne<span class="kw">,</span> suggest_bet(<span class="dt">_</span>)<span class="kw">,</span> <span class="dt">Omega2Response</span>)<span class="kw">;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        <span class="kw">!</span><span class="dt">Omega2Response</span><span class="kw">;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>send(zencount<span class="kw">,</span> askOne<span class="kw">,</span> suggest_bet(<span class="dt">_</span>)<span class="kw">,</span> <span class="dt">ZencountResponse</span>)<span class="kw">;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        <span class="kw">!</span><span class="dt">ZencountResponse</span><span class="kw">;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        <span class="kw">!</span>aggregate_bets<span class="kw">.</span></span></code></pre></div>
+<p>Agent reply to the send message is in the form of a new plan that
+contains the array of the elements needed (Bet, StoppingPoint) that the
+player will acknowledge.</p>
+<div class="sourceCode" id="cb3" data-language="Prolog"><pre
+class="sourceCode prolog"><code class="sourceCode prolog"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">+</span><span class="kw">!</span>suggest_bet(<span class="dt">List</span>)[source(<span class="dt">Sender</span>)]  &lt;- </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>nth(<span class="dv">0</span><span class="kw">,</span> <span class="dt">List</span><span class="kw">,</span> <span class="dt">Bet</span>)<span class="kw">;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>nth(<span class="dv">1</span><span class="kw">,</span> <span class="dt">List</span><span class="kw">,</span> <span class="dt">Stop</span>)<span class="kw">;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>print(<span class="ot">&quot;</span><span class="er">Ricevuto suggerimento da</span><span class="ot">:</span><span class="er">  </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Sender</span><span class="kw">,</span> <span class="ot">&quot;</span><span class="er"> </span><span class="ot">:</span><span class="er"> Punto </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Bet</span><span class="kw">,</span> <span class="ot">&quot;</span><span class="er"> </span><span class="ot">-</span><span class="er"> Stop a </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Stop</span>)<span class="kw">;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="fu">+</span>bet_suggestion(<span class="dt">Bet</span><span class="kw">,</span> <span class="dt">Stop</span>)<span class="kw">.</span> </span></code></pre></div>
+<p>Each strategic agent then comunicates his suggested Bet and Stopping
+score, once the player has all the informations he choses who trust and
+fllows his guidelines.</p>
+<div class="sourceCode" id="cb4" data-language="Prolog"><pre
+class="sourceCode prolog"><code class="sourceCode prolog"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>+?suggest_bet(<span class="dt">G</span>)[source(<span class="dt">Sender</span>)] &lt;-  </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>        ?card_count(<span class="dt">C</span>)<span class="kw">;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>wait(<span class="dv">300</span>)<span class="kw">;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>print(<span class="ot">&quot;</span><span class="er">Card  count vale</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">C</span>)<span class="kw">;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&gt;</span> <span class="dv">2</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">100</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">19</span> <span class="kw">}</span>  </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&lt;</span> <span class="dt">-</span><span class="dv">1</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">10</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">16</span> <span class="kw">}</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>        if (<span class="dt">C</span> <span class="dt">&gt;=</span> <span class="dt">-</span><span class="dv">1</span> &amp; <span class="dt">C</span> &lt;= <span class="dv">2</span>) <span class="kw">{</span> <span class="dt">Bet</span> <span class="kw">=</span> <span class="dv">25</span><span class="kw">;</span> <span class="dt">Stop</span> <span class="kw">=</span> <span class="dv">18</span> <span class="kw">}</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>        <span class="kw">.</span>print(<span class="ot">&quot;</span><span class="er">Suggerisco di puntare</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Bet</span><span class="kw">,</span> <span class="ot">&quot;</span><span class="er"> e di fermarsi a</span><span class="ot">:</span><span class="er"> </span><span class="ot">&quot;</span><span class="kw">,</span> <span class="dt">Stop</span>)<span class="kw">;</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">G</span> <span class="kw">=</span> [<span class="dt">Bet</span>, <span class="dt">Stop</span>]<span class="kw">.</span></span></code></pre></div>
 <h1 id="deployment-instructions">Deployment Instructions</h1>
 <p>The software has quite a simple deployment, a gradle application is
 used to build and run all the case studied. Running the following
@@ -543,7 +571,37 @@ data-caption="Runnable tasks" data-label="lst:bash_tasks"><code>Run tasks
     runStrategistMAS - Esegue il MAS Strategist.mas2j
     runwaySmarterPlayerMAS - Esegue il MAS waySmarterPlayer.mas2j</code></pre>
 <h1 id="conclusions">Conclusions</h1>
-<p>Recap what you did.</p>
+<p>The summary of this experiment is quite simple, the dealer ALWAYS
+win! A statistic Observable has been introduced in the project to save
+the results of a certain number of games keeping track of win and loss
+and the money flow, some graphical rapresentation will be added
+below.</p>
+<h2 id="smart-agent">Smart Agent</h2>
+<figure id="fig:classDiagram">
+<img src="report/img/smart-statistic.png" />
+<figcaption>Smart Agent trend</figcaption>
+</figure>
+<h2 id="way-smarter-agent-1">Way Smarter Agent</h2>
+<figure id="fig:classDiagram">
+<img src="report/img/waySmart-statistic.png" />
+<figcaption>Way (not so much) Smarter Agent trend</figcaption>
+</figure>
+<h2 id="strategist">Strategist</h2>
+<figure id="fig:classDiagram">
+<img src="report/img/strategist-statistic.png" />
+<figcaption>Strategic Agent trend</figcaption>
+</figure>
+<h2 id="future-developments">Future developments</h2>
+<p>The agents presented here don’t know the meaning of the double and
+split actions so probably wuold be interesting, as part of the game,
+explore this mechanisms to gain a higher chance of winning.</p>
+<p>A really interesting feature in the strategist Environment could be
+assigning a trust score to each agent and the player will follow the
+advice of the most trusted. Also would be needed to implement, maybe
+through another watcher agent, the possibility to remember strategist
+prediction on both player and dealer hand and assign them their trust
+based on how close their prediction is to what actually are the hand
+values.</p>
             </div>
     </div>
   </div>
