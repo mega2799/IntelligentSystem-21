@@ -1,0 +1,49 @@
+classDiagram
+    class Player {
+        -String name
+        -float bankroll
+        +placeBet(amount)
+        +hit()
+        +stand()
+        +doubleDown()
+        +split()
+    }
+
+    class Dealer {
+        -Deck deck
+        +dealCards(Player p)
+        +hit()
+    }
+
+    class Card {
+        -String suit
+        -int value
+        +getValue() int
+    }
+
+    class Deck {
+        -List~Card~ cards
+        +shuffle()
+        +drawCard() Card
+    }
+
+    class Hand {
+        -List~Card~ cards
+        +getHandValue() int
+        +isBlackjack() bool
+        +isBust() bool
+    }
+
+    class GameTable {
+        -Player player
+        -Dealer dealer
+        +startGame()
+        +determineWinner()
+    }
+
+    Player --> Hand : has
+    Dealer --> Deck : uses
+    Deck --> Card : contains
+    Player --> GameTable : participates
+    Dealer --> GameTable : manages
+    Hand --> Card : holds

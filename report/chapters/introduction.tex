@@ -33,17 +33,12 @@ To test the agents implementation will be measured the amount of money won and r
 
 \chapter{Background and link to the theory}
 
-(To be written at the end)
-• Relevant architectural styles (the ones mentioned in Section 3)
-• Relevant interaction patterns (the ones mentioned in Section 3)
-• Relevant software frameworks (the ones mentioned in Sections 3 and 4)
-
 \textbf{Blackjack} is a popular casino card game where players compete against the dealer to get a score as close as possible to \textbf{21} without exceeding it. It is a game of skill, strategy, and luck, widely played in both physical and online casinos.
 
 \section{Basic Rules}
 
 \begin{itemize}
-    \item The game is played with one or more decks of \textbf{52 cards}.
+    \item The game is played with one or more decks.
     \item Numbered cards (2-10) have their face value, face cards (J, Q, K) are worth \textbf{10}, and the Ace can be worth \textbf{1 or 11}, depending on what benefits the player.
     \item Each player and the dealer receive \textbf{two initial cards}. The dealer reveals one of their cards.
     \item The player can decide to:
@@ -201,8 +196,8 @@ Keeping a conservative attitude of staying around the 18 points in hand the HiLo
 
 \begin{lstlisting}[language=Prolog]
     +hand_value(V) : ?card_count(C) & V < (18 - C) <-
-    !debug_print(["Valore mano: ", V, " | Card Count: ", C, " => Chiedo carta!"]);
-    !ask_card.
+        !debug_print(["Valore mano: ", V, " | Card Count: ", C, " => Chiedo carta!"]);
+        !ask_card.
 \end{lstlisting}
 
 \section{Consensuos}
@@ -249,23 +244,47 @@ The Omega II system is more complex and combines different card counting approac
 
 This system provides greater accuracy compared to simpler systems such as HiLo and KO, but it can be more challenging to apply due to its complexity.
 
-Each agent then comunicates his suggested Bet and Stopping score, once the player has all the informations he choses who trust and fllows his guidelines. 
-
-\begin{lstlisting}[language=Prolog]
-    +suggest_bet(G) <-  
-        ?card_count(C);
-        .wait(400);
-        .print("Card  count vale: ", C);
-        if (C > 2) { Bet = 100; Stop = 19 } 
-        if (C < -1) { Bet = 10; Stop = 16 } 
-        if (C >= -1 & C <= 2) { Bet = 25; Stop = 18 }
-        .print("Suggerisco di puntare: ", Bet, " e di fermarsi a: ", Stop);
-        .send(advicedPlayer, tell, suggested_bet(Bet, Stop)).
-\end{lstlisting}
-
 \section{Async Agents}
 
+Player before looking at his cards asks an advice to his strategists waiting for an answer through a send with askOne performative wait for his advice and the collecting all the adivces to build up his intentions on how much money bet and what's the stopping point of his hand.
 
+\begin{lstlisting}[language=Prolog]
+    +!decide_bet <-
+        .print("Chiedo consiglio per la puntata");
+        ?game(G);
+        .send(hilo, askOne, suggest_bet(_),  HiloResponse);
+        !HiloResponse;
+        .send(omega2, askOne, suggest_bet(_), Omega2Response);
+        !Omega2Response;
+        .send(zencount, askOne, suggest_bet(_), ZencountResponse);
+        !ZencountResponse;
+        !aggregate_bets.
+\end{lstlisting}
+
+Agent reply to the send message is in the form of a new plan that contains the array of the elements needed (Bet, StoppingPoint) that the player will acknowledge.
+
+\begin{lstlisting}[language=Prolog]
+    +!suggest_bet(List)[source(Sender)]  <- 
+        .nth(0, List, Bet);
+        .nth(1, List, Stop);
+        .print("Ricevuto suggerimento da:  ", Sender, " : Punto ", Bet, " - Stop a ", Stop);
+        +bet_suggestion(Bet, Stop). 
+\end{lstlisting}
+
+
+Each strategic agent then comunicates his suggested Bet and Stopping score, once the player has all the informations he choses who trust and fllows his guidelines. 
+
+\begin{lstlisting}[language=Prolog]
+    +?suggest_bet(G)[source(Sender)] <-  
+        ?card_count(C);
+        .wait(300);
+        .print("Card  count vale: ", C);
+        if (C > 2) { Bet = 100; Stop = 19 }  
+        if (C < -1) { Bet = 10; Stop = 16 } 
+        if (C >= -1 & C <= 2) { Bet = 25; Stop = 18 } 
+        .print("Suggerisco di puntare: ", Bet, " e di fermarsi a: ", Stop);
+        G = [Bet, Stop].
+\end{lstlisting}
 
 % \chapter{Validation}
 % Choose a criterion for the evaluation of the produced software and its compliance
@@ -293,4 +312,37 @@ The software has quite a simple deployment, a gradle application is used to buil
 \end{lstlisting}
 
 \chapter{Conclusions}
-Recap what you did.
+
+The summary of this experiment is quite simple, the dealer ALWAYS win! A statistic Observable has been introduced in the project to save the results of a certain number of games keeping track of win and loss and the money flow, some graphical rapresentation will be added below. 
+
+\section{Smart Agent}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.35]{report/img/smart-statistic.png}
+    \caption{Smart Agent trend}
+    \label{fig:classDiagram}
+\end{figure}
+
+\section{Way Smarter Agent}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.35]{report/img/waySmart-statistic.png}
+    \caption{Way (not so much) Smarter Agent trend}
+    \label{fig:classDiagram}
+\end{figure}
+
+\section{Strategist}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.35]{report/img/strategist-statistic.png}
+    \caption{Strategic Agent trend}
+    \label{fig:classDiagram}
+\end{figure}
+
+
+
+\section{Future developments}
+
+The agents presented here don't know the meaning of the double and split actions so probably wuold be interesting, as part of the game, explore this mechanisms to gain a higher chance of winning. 
+
+A really interesting feature in the strategist Environment could be assigning a trust score to each agent and the player will follow the advice of the most trusted. Also would be needed to implement, maybe through another watcher agent, the possibility to remember strategist prediction on both player and dealer hand and assign them their trust based on how close their prediction is to what actually are the hand values.

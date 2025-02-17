@@ -82,6 +82,20 @@
     frame=single
 }
 
+\lstdefinelanguage{Prolog}{
+    morekeywords={:-,?,assert, retract, dynamic, consult}, % Parole chiave
+    morecomment=[l]\%, % Commenti che iniziano con %
+    morestring=[b]', % Stringhe tra apici singoli
+    keywordstyle=\color{keywordblue}\bfseries, % Stile parole chiave
+    commentstyle=\color{commentgreen}, % Stile commenti
+    stringstyle=\color{stringred}, % Stile stringhe
+    basicstyle=\ttfamily\small, % Font base
+    tabsize=4, % Dimensione del tab
+    showstringspaces=false, % Non mostrare spazi nelle stringhe
+    frame=single, % Bordo attorno al codice
+    breaklines=true, % Abilita il ritorno a capo automatico
+}
+
 %%-------------------------------------
 %% Graphics/Figures environment settings
 %%-------------------------------------
