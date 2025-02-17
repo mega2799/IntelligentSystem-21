@@ -76,8 +76,20 @@ To test the agents implementation will be measured the amount of money won and r
 Blackjack is a game that combines luck and strategy, with optimal strategy charts to maximize winning chances. Would you like some tips on basic strategy?
 
 
-//TODO inserire alcuni screen di gioco 
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.55]{report/img/screen.png}
+    \caption{gameplay example}
+    \label{fig:scren1}
+\end{figure}
 
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[scale=0.55]{report/img/screen2.png}
+    \caption{gameplay example 2}
+    \label{fig:scren2}
+\end{figure}
 
 \chapter{Requirements Analysis}
 
@@ -125,7 +137,7 @@ The interaction between agents is controlled by \textbf{TwentyOneEnvironment} th
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{report/img/classDiagram.png}
-    \caption{Diagramma delle classi}
+    \caption{Class diagram}
     \label{fig:classDiagram}
 \end{figure}
 
@@ -134,19 +146,19 @@ The interaction between agents is controlled by \textbf{TwentyOneEnvironment} th
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{report/img/sequenceDiagram.png}
-    \label{fig:classDiagram}
+    \label{fig:seqDiagram}
 \end{figure}
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{report/img/sequenceDiagram2.png}
-    \caption{Diagramma delle classi}
-    \label{fig:classDiagram}
+    \caption{Sequence diagram}
+    \label{fig:seqDiagram2}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
     \includegraphics[scale=0.55]{report/img/activityDiagram.png}
-    \caption{Diagramma delle attività}
+    \caption{Activity diagram}
     \label{fig:activityDiagram}
 \end{figure}
 
@@ -175,10 +187,10 @@ The project follows the basic guidelines of the MAS architecture. The more compl
 
 
 \chapter{Salient implementation details}
-Anything potentially interesting / non-trivial and technologies adopted to match the
-design. This section is expected to be short in case some documentation (e.g. Javadoc
-or Swagger Spec) has been produced for the software artefacts. This this case, the
-produced documentation should be referenced here.
+% Anything potentially interesting / non-trivial and technologies adopted to match the
+% design. This section is expected to be short in case some documentation (e.g. Javadoc
+% or Swagger Spec) has been produced for the software artefacts. This this case, the
+% produced documentation should be referenced here.
 
 The approach to solve the goal of creating agents more and more capable of playing was to create each agent smarter than the one before.
 
